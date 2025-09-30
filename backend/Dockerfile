@@ -34,5 +34,5 @@ EXPOSE 8080
 COPY .env ./.env
 COPY client_secret.json ./client_secret.json
 
-# Start FastAPI with Uvicorn; respect Cloud Run PORT or default to 8000
-CMD uvicorn main:app --host 0.0.0.0 --port ${PORT:-8000}
+# Start with Gunicorn (Uvicorn workers)
+CMD ["gunicorn", "--bind", "0.0.0.0:8080", "--workers", "1", "--threads", "8", "--timeout", "0", "main:app"]

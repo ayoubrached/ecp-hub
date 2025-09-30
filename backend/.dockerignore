@@ -4,8 +4,6 @@ __pycache__
 *.pyo
 *.pyd
 *.log
-client_secret.json
-token.json
 node_modules
 .git
 .gitignore

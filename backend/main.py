@@ -60,16 +60,48 @@ async def parse_latest_schedule(label: str = "Schedule Intake", client_secret_pa
 @app.get("/events")
 async def list_events():
   try:
-    items = get_events()
+    raw = get_events()
+    items = []
+    for d in raw:
+      items.append({
+        "id": d.get("id"),
+        "locationId": d.get("location_id"),
+        "name": d.get("event_name", ""),
+        "date": d.get("event_date", ""),
+        "startTime": d.get("start_time", ""),
+        "endTime": d.get("end_time", ""),
+        "notes": d.get("notes", ""),
+      })
     return {"success": True, "items": items}
   except Exception as e:
     raise HTTPException(status_code=500, detail=str(e))
 
 
-# To run locally: uvicorn main:app --reload --host 0.0.0.0 --port 8000
+class CreateEventRequest(BaseModel):
+  locationId: int
+  eventName: str
+  date: str
+  startTime: str
+  endTime: str
+  notes: str = ""
 
-if __name__ == "__main__":
-  import uvicorn
-  import os as _os
-  _port = int(_os.getenv("PORT", "8000"))
-  uvicorn.run("main:app", host="0.0.0.0", port=_port)
+
+@app.post("/events")
+async def create_event(body: CreateEventRequest):
+  try:
+    # Normalize to storage shape used by save_events
+    payload = [{
+      'location_id': body.locationId,
+      'event_name': body.eventName,
+      'event_date': body.date,
+      'start_time': body.startTime,
+      'end_time': body.endTime,
+      'notes': body.notes,
+    }]
+    saved = save_events(payload)
+    return {"success": True, "saved": saved}
+  except Exception as e:
+    raise HTTPException(status_code=500, detail=str(e))
+
+
+# To run locally: uvicorn main:app --reload --host 0.0.0.0 --port 8000

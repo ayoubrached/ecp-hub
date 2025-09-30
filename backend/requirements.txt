@@ -7,3 +7,5 @@ python-dotenv==1.0.1
 google-auth-oauthlib==1.2.1
 google-cloud-aiplatform==1.117.0
 google-generativeai==0.8.5
+gunicorn==23.0.0
+PyMuPDF==1.24.9

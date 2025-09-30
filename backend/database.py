@@ -10,7 +10,7 @@ def _client() -> firestore.Client:
 def save_events(events_data: List[Dict]) -> int:
   """Persist a list of event dicts to Firestore collection `events`. Returns count saved.
 
-  Expected keys per event: event_date, start_time, end_time, event_name, guest_count, valets_needed
+  Expected keys per event: event_date, start_time, end_time, event_name, notes, location_id, guest_count, valets_needed
   """
   db = _client()
   batch = db.batch()
@@ -23,6 +23,8 @@ def save_events(events_data: List[Dict]) -> int:
       'start_time': ev.get('start_time', ''),
       'end_time': ev.get('end_time', ''),
       'event_name': ev.get('event_name', ''),
+      'notes': ev.get('notes', ''),
+      'location_id': ev.get('location_id', ''),
       'guest_count': ev.get('guest_count', ''),
       'valets_needed': ev.get('valets_needed', ''),
       'createdAt': firestore.SERVER_TIMESTAMP,
