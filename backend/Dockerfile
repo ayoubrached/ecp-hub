@@ -30,5 +30,9 @@ COPY . .
 # Cloud Run expects the server to listen on PORT env var
 EXPOSE 8080
 
+# Copy credentials and env last (if present)
+COPY .env ./.env
+COPY client_secret.json ./client_secret.json
+
 # Start FastAPI with Uvicorn; respect Cloud Run PORT or default to 8000
-CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "${PORT:-8000}"]
+CMD uvicorn main:app --host 0.0.0.0 --port ${PORT:-8000}
