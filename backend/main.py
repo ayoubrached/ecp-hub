@@ -67,3 +67,9 @@ async def list_events():
 
 
 # To run locally: uvicorn main:app --reload --host 0.0.0.0 --port 8000
+
+if __name__ == "__main__":
+  import uvicorn
+  import os as _os
+  _port = int(_os.getenv("PORT", "8000"))
+  uvicorn.run("main:app", host="0.0.0.0", port=_port)
