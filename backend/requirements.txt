@@ -9,3 +9,4 @@ google-cloud-aiplatform==1.117.0
 google-generativeai==0.8.5
 gunicorn==23.0.0
 PyMuPDF==1.24.9
+python-docx==1.1.2
