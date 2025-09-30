@@ -13,8 +13,8 @@ app = FastAPI(title="ECP Hub Backend", version="0.1.0")
 
 
 class AuthRequest(BaseModel):
-  client_secret_path: str = "client_secret.json"
-  token_path: str = "token.json"
+  client_secret_path: str = "/secrets/client_secret_json"
+  token_path: str = "/secrets/token_json"
 
 
 @app.get("/")
@@ -35,7 +35,7 @@ async def auth(req: AuthRequest):
 
 
 @app.get("/emails/unread-with-attachments")
-async def unread_with_attachments(label: str = "Schedule Intake", client_secret_path: str = "client_secret.json", token_path: str = "token.json"):
+async def unread_with_attachments(label: str = "Schedule Intake", client_secret_path: str = "/secrets/client_secret_json", token_path: str = "/secrets/token_json"):
   try:
     creds = get_credentials(client_secret_path=client_secret_path, token_path=token_path)
     service = build_gmail_service(creds)
@@ -46,7 +46,7 @@ async def unread_with_attachments(label: str = "Schedule Intake", client_secret_
 
 
 @app.post("/parse-latest-schedule")
-async def parse_latest_schedule(label: str = "Schedule Intake", client_secret_path: str = "client_secret.json", token_path: str = "token.json"):
+async def parse_latest_schedule(label: str = "Schedule Intake", client_secret_path: str = "/secrets/client_secret_json", token_path: str = "/secrets/token_json"):
   try:
     creds = get_credentials(client_secret_path=client_secret_path, token_path=token_path)
     service = build_gmail_service(creds)

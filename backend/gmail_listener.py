@@ -14,7 +14,7 @@ GMAIL_SCOPES = [
 ]
 
 
-def get_credentials(client_secret_path: str = "client_secret.json", token_path: str = "token.json") -> Credentials:
+def get_credentials(client_secret_path: str = "/secrets/client_secret_json", token_path: str = "/secrets/token_json") -> Credentials:
   """Load OAuth user credentials; run consent flow if missing/expired, then save token.json."""
   creds: Optional[Credentials] = None
   if os.path.exists(token_path):
@@ -136,7 +136,7 @@ def fetch_first_unread_attachment_bytes(gmail_service, label_name: str = "Schedu
   return {"filename": fname, "bytes": data}
 
 
-def poll_schedule_intake(interval_seconds: int = 60, max_cycles: Optional[int] = None, client_secret_path: str = "client_secret.json", token_path: str = "token.json"):
+def poll_schedule_intake(interval_seconds: int = 60, max_cycles: Optional[int] = None, client_secret_path: str = "/secrets/client_secret_json", token_path: str = "/secrets/token_json"):
   """Continuously poll the 'Schedule Intake' label for unread emails with attachments.
 
   For local dev/testing. In production, consider a scheduler or background worker.
